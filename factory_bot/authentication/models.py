@@ -9,7 +9,7 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, name, password=None, **extra_fields):
         if not name:
             raise ValueError('Users must have a name')
-        user = self.model(self, name=name **extra_fields)
+        user = self.model(name=name, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user

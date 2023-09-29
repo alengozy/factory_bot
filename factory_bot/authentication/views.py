@@ -1,16 +1,15 @@
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from django.shortcuts import render
+from .serializers import UserSerializer
 # Create your views here.
 
-@api_view(['POST'])
-def login(request):
-    return Response({})
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    
 
-@api_view(['POST'])
-def signup(request):
-    return Response({})
-
-@api_view(['POST'])
-def test_token(request):
-    return Response({})
