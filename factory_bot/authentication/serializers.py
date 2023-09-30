@@ -1,7 +1,7 @@
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from .models import CustomUser
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["id", "username", "name", "password"]
@@ -13,3 +13,8 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+    
+class UserTokenSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ("telegram_token",)

@@ -1,11 +1,11 @@
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin, DestroyModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from .models import Messages
 from .serializers import MessagesSerializer
 
 # Create your views here.
-class MessagesViewSet(RetrieveModelMixin, ListModelMixin, CreateModelMixin, GenericViewSet, DestroyModelMixin):
+class MessagesViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
     serializer_class = MessagesSerializer
     permission_classes = (IsAuthenticated,)
 

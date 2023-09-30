@@ -16,12 +16,13 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=g45tu+4=+l(_rtpdy9@0hxbio4%6lp))dw1&sp=l9o)gsrx4)'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -140,3 +141,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'authentication.CustomUser'
+
