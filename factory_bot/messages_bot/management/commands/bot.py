@@ -4,20 +4,24 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from authentication.models import CustomUser
 
+
 class Command(BaseCommand):
     help = 'Telegram bot command to handle user messages and tokens.'
-    
+
     def handle(self, *args, **kwargs):
+        WELCOME = 'Hi! Please enter generated token.'
         TOKEN_FOUND = 'Token found!'
         USER_NOT_FOUND = 'User not found!'
         OBSOLETE_TOKEN = 'Token is no longer valid. Please renew your token.'
         TOKEN_ADDED = 'Token has been successfully added!'
-        
+
         def start(update, context):
             user_id = update.effective_user.id
             try:
                 user = CustomUser.objects.get(telegram_session_id=user_id)
-                update.message.reply_text(TOKEN_FOUND)
+                user.telegram_session_id = None
+                user.save()
+                update.message.reply_text(WELCOME)
             except CustomUser.DoesNotExist:
                 update.message.reply_text(USER_NOT_FOUND)
 
@@ -32,7 +36,7 @@ class Command(BaseCommand):
                     user = CustomUser.objects.get(telegram_token=token)
                 except CustomUser.DoesNotExist:
                     update.message.reply_text(OBSOLETE_TOKEN)
-                    
+
                 if user.telegram_session_id:
                     update.message.reply_text(OBSOLETE_TOKEN)
                 else:
