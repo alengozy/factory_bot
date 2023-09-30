@@ -14,7 +14,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
     def create_superuser(self, name, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -26,15 +26,16 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(name, password, **extra_fields)
-        
 
 
 class CustomUser(AbstractUser):
-    username = models.CharField(max_length=20,  validators=[MinLengthValidator(4)], unique=True)
+    username = models.CharField(max_length=20,  validators=[
+                                MinLengthValidator(4)], unique=True)
     name = models.CharField(max_length=100, validators=[MinLengthValidator(4)])
     email = None
     telegram_token = models.CharField(max_length=100, blank=True, null=True)
-    telegram_session_id = models.CharField(max_length=100, blank=True, null=True)
+    telegram_session_id = models.CharField(
+        max_length=100, blank=True, null=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -44,11 +45,10 @@ class CustomUser(AbstractUser):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['name']
-    
+
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
     def __str__(self):
         return self.name
-

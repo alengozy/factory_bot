@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from .models import CustomUser
 
+
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
@@ -13,7 +14,8 @@ class UserSerializer(ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-    
+
+
 class UserTokenSerializer(ModelSerializer):
     class Meta:
         model = CustomUser

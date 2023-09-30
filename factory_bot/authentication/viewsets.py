@@ -9,10 +9,11 @@ from .serializers import UserSerializer, UserTokenSerializer
 from .models import CustomUser
 # Create your views here.
 
+
 class RegisterViewSet(CreateModelMixin, GenericViewSet):
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all()
-    
+
 
 class UserTokenViewSet(ViewSet):
     permission_classes = (IsAuthenticated,)

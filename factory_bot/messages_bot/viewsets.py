@@ -5,6 +5,8 @@ from .models import Messages
 from .serializers import MessagesSerializer
 
 # Create your views here.
+
+
 class MessagesViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
     serializer_class = MessagesSerializer
     permission_classes = (IsAuthenticated,)

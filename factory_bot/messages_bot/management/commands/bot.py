@@ -6,10 +6,13 @@ from authentication.models import CustomUser
 
 
 class Command(BaseCommand):
-    help = 'Telegram bot command to handle user messages and tokens.'
+    help = """Telegram bot command to handle user messages and tokens.
+    Usage: /start to initiate a conversation.
+           /reset to reset your token.
+    """
 
     def handle(self, *args, **kwargs):
-        WELCOME = 'Hi! Please enter generated token.'
+        TOKEN_RESET = 'Token Reset! Please enter new token.'
         TOKEN_FOUND = 'Token found!'
         USER_NOT_FOUND = 'User not found!'
         OBSOLETE_TOKEN = 'Token is no longer valid. Please renew your token.'
@@ -19,9 +22,17 @@ class Command(BaseCommand):
             user_id = update.effective_user.id
             try:
                 user = CustomUser.objects.get(telegram_session_id=user_id)
+                update.message.reply_text(TOKEN_FOUND)
+            except CustomUser.DoesNotExist:
+                update.message.reply_text(USER_NOT_FOUND)
+
+        def reset(update, context):
+            user_id = update.effective_user.id
+            try:
+                user = CustomUser.objects.get(telegram_session_id=user_id)
                 user.telegram_session_id = None
                 user.save()
-                update.message.reply_text(WELCOME)
+                update.message.reply_text(TOKEN_RESET)
             except CustomUser.DoesNotExist:
                 update.message.reply_text(USER_NOT_FOUND)
 
@@ -46,6 +57,7 @@ class Command(BaseCommand):
 
         updater = Updater(token=settings.TELEGRAM_BOT_TOKEN, use_context=True)
         updater.dispatcher.add_handler(CommandHandler("start", start))
+        updater.dispatcher.add_handler(CommandHandler("reset", reset))
         updater.dispatcher.add_handler(
             MessageHandler(Filters.text & ~Filters.command, handle_message)
         )
