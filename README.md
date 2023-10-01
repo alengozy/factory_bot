@@ -4,7 +4,7 @@ Django + DRF + Python Telegram API project made for "Фабрика Проект
 
 ## Usage
 1. Open the project via [link](https://octopus-app-c2c2f.ondigitalocean.app/api/docs).
-2. Register with the /register endpoint.
+2. Register with the "/register" endpoint.
 3. Obtain the token pair via the "/login" endpoint. Copy the access token.
 4. Press the Authorize button in the top right corner, or a lock button next to each endpoint. Paste the token into the field and press Authorize.
 5. Open Telegram, find @alengozy_bot, and start the conversation. 
