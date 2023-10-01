@@ -20,3 +20,5 @@ class UserTokenSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ("telegram_token",)
+        read_only_fields = ("telegram_token",)
+
